@@ -76,6 +76,34 @@ function getVideoGame():VideoGame {
 
 function displayGame(myGame:VideoGame):void {
     // TODO: Display video game below the form
+    let displayDiv = $("display");
+    // will create an h2 in memeory with game title
+    let gameHeading = document.createElement("h2");
+    gameHeading.innerText = myGame.title;
+    let notDigitalDisplay = "";
+    if(myGame.isDigitalOnly){
+        notDigitalDisplay = "This is a digital only game.";
+    }
+    else {
+        notDigitalDisplay = "You can buy a physical copy at your local retailer!";
+    }
+
+    // Create paragraph with game details
+    let gameInfo = document.createElement("p");
+    /* JS version of adding innerText
+    gameInfo.innerText = myGame.title + " has a rating of " + myGame.rating
+                        + ". It costs " + myGame.price
+                        + ". It is available on " + myGame.platform
+                        + ". It is " + notDigitalDiaply + " digital only";
+    */
+    // interpolated version of adding innerText
+    gameInfo.innerText = `${myGame.title} has rating of ` +
+                        ` ${myGame.rating}. It costs $${myGame.price.toFixed(2)}. It is available on ${myGame.platform}.` +  
+                        ` ${notDigitalDisplay}`;
+    // Add <h2> in the <div id="display">
+    displayDiv.appendChild(gameHeading);
+    // Add <p> game info
+    displayDiv.appendChild(gameInfo);
 }
 
 
