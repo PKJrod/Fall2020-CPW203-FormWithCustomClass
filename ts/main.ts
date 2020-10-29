@@ -20,8 +20,17 @@ window.onload = function() {
     addBtn.onclick = addVideoGame;
 }
 
+/**
+ * Clears all errors in the validation summary
+ */
+function clearAllErrors() {
+    let errSummary = $("validation-summary");
+    errSummary.innerText = "";
+}
+
 function addVideoGame() {
-    
+    clearAllErrors();
+
     if(allDataValid()) {
         let game = getVideoGame();
         displayGame(game);
@@ -106,8 +115,40 @@ function displayGame(myGame:VideoGame):void {
     displayDiv.appendChild(gameInfo);
 }
 
+/**
+ * 
+ * @param id getInputById is a shortcut for casting HTMLInputElement
+ */
+function getInputById(id:string):HTMLInputElement{
+    return <HTMLInputElement>document.getElementById(id);
+}
+
 
 // Validation Code
 function allDataValid() {
-    return true;
+    let isValid = true;
+
+    let title = getInputById("title").value;
+    if(title == ""){
+        isValid = false;
+        let errSummary = $("validation-summary");
+        let errItem = document.createElement("li");
+        errItem.innerText = "Title is required!";
+
+        errSummary.appendChild(errItem);
+    }
+
+    let price = getInputById("price").value;
+    let priceValue = parseFloat(price);
+    if(price == "" || isNaN(priceValue)){
+        isValid = false;
+
+        let errSummary = $("validation-summary");
+        let errItem = document.createElement("li");
+        errItem.innerText = "Price is required and must be a number";
+
+        errSummary.appendChild(errItem);
+    }
+
+    return isValid;
 }
