@@ -17,6 +17,9 @@ function addVideoGame() {
         var game = getVideoGame();
         displayGame(game);
     }
+    else {
+        displayRatingsLink();
+    }
 }
 function $(id) {
     return document.getElementById(id);
@@ -58,6 +61,16 @@ function displayGame(myGame) {
     displayDiv.appendChild(gameHeading);
     displayDiv.appendChild(gameInfo);
 }
+function displayRatingsLink() {
+    var ratingsElement = document.querySelectorAll(".rating-error");
+    for (var i = 0; i < ratingsElement.length; i++) {
+        var currElem = ratingsElement[i];
+        currElem.onclick = goToRatingsPage;
+    }
+}
+function goToRatingsPage() {
+    window.open("https://www.esrb.org/", "_blank");
+}
 function getInputById(id) {
     return document.getElementById(id);
 }
@@ -77,18 +90,25 @@ function allDataValid() {
     var rating = $("rating").value;
     if (rating == "") {
         isValid = false;
-        addErrorMessage("You must choose a rating!");
+        addErrorMsgWithCustomClass("You must choose a rating!", "rating-error");
     }
     var gamePlatform = $("platform").value;
     if (gamePlatform == "") {
         isValid = false;
-        addErrorMessage("You must choose a platform!");
+        addErrorMsgWithCustomClass("You must choose a platform!", "platform-error");
     }
     return isValid;
 }
 function addErrorMessage(errMsg) {
     var errSummary = $("validation-summary");
     var errItem = document.createElement("li");
+    errItem.innerText = errMsg;
+    errSummary.appendChild(errItem);
+}
+function addErrorMsgWithCustomClass(errMsg, cssClass) {
+    var errSummary = $("validation-summary");
+    var errItem = document.createElement("li");
+    errItem.classList.add(cssClass);
     errItem.innerText = errMsg;
     errSummary.appendChild(errItem);
 }

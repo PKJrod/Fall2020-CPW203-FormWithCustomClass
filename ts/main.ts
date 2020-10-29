@@ -35,6 +35,9 @@ function addVideoGame() {
         let game = getVideoGame();
         displayGame(game);
     }
+    else{
+        displayRatingsLink();
+    }
 }
 
 /**
@@ -115,6 +118,19 @@ function displayGame(myGame:VideoGame):void {
     displayDiv.appendChild(gameInfo);
 }
 
+function displayRatingsLink(){
+    let ratingsElement = document.querySelectorAll(".rating-error");
+    for(let i = 0; i < ratingsElement.length; i++){
+        let currElem = <HTMLElement>ratingsElement[i];
+        currElem.onclick = goToRatingsPage;
+        //currElem.innerHTML += "<a target='_blank' href='https://www.esrb/org/' Click here for info</a>"
+    }
+}
+
+function goToRatingsPage(){
+    window.open("https://www.esrb.org/", "_blank");
+}
+
 /**
  * 
  * @param id getInputById is a shortcut for casting HTMLInputElement
@@ -144,21 +160,38 @@ function allDataValid() {
     let rating = (<HTMLOptionElement>$("rating")).value;
     if(rating == ""){
         isValid = false;
-        addErrorMessage("You must choose a rating!");
+        addErrorMsgWithCustomClass("You must choose a rating!", "rating-error");
     }
 
     let gamePlatform = (<HTMLOptionElement>$("platform")).value;
     if(gamePlatform == ""){
         isValid = false;
-        addErrorMessage("You must choose a platform!");
+        addErrorMsgWithCustomClass("You must choose a platform!", "platform-error");
     }
 
     return isValid;
 }
 
+/**
+ * 
+ * @param errMsg used to create an error message for each label if user submitted invalid data.
+ */
 function addErrorMessage(errMsg:string) {
     let errSummary = $("validation-summary");
     let errItem = document.createElement("li");
+    errItem.innerText = errMsg;
+    errSummary.appendChild(errItem);
+}
+
+/**
+ * 
+ * @param errMsg same as above
+ * @param cssClass used to give individual elements like option elements styled differently 
+ */
+function addErrorMsgWithCustomClass(errMsg:string, cssClass:string){
+    let errSummary = $("validation-summary");
+    let errItem = document.createElement("li");
+    errItem.classList.add(cssClass);
     errItem.innerText = errMsg;
     errSummary.appendChild(errItem);
 }
