@@ -131,24 +131,34 @@ function allDataValid() {
     let title = getInputById("title").value;
     if(title == ""){
         isValid = false;
-        let errSummary = $("validation-summary");
-        let errItem = document.createElement("li");
-        errItem.innerText = "Title is required!";
-
-        errSummary.appendChild(errItem);
+        addErrorMessage("Title is required!");
     }
 
     let price = getInputById("price").value;
     let priceValue = parseFloat(price);
     if(price == "" || isNaN(priceValue)){
         isValid = false;
+        addErrorMessage("Price is required and must be a number!");
+    }
 
-        let errSummary = $("validation-summary");
-        let errItem = document.createElement("li");
-        errItem.innerText = "Price is required and must be a number";
+    let rating = (<HTMLOptionElement>$("rating")).value;
+    if(rating == ""){
+        isValid = false;
+        addErrorMessage("You must choose a rating!");
+    }
 
-        errSummary.appendChild(errItem);
+    let gamePlatform = (<HTMLOptionElement>$("platform")).value;
+    if(gamePlatform == ""){
+        isValid = false;
+        addErrorMessage("You must choose a platform!");
     }
 
     return isValid;
+}
+
+function addErrorMessage(errMsg:string) {
+    let errSummary = $("validation-summary");
+    let errItem = document.createElement("li");
+    errItem.innerText = errMsg;
+    errSummary.appendChild(errItem);
 }

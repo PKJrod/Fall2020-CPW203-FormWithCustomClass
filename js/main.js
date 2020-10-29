@@ -66,19 +66,29 @@ function allDataValid() {
     var title = getInputById("title").value;
     if (title == "") {
         isValid = false;
-        var errSummary = $("validation-summary");
-        var errItem = document.createElement("li");
-        errItem.innerText = "Title is required!";
-        errSummary.appendChild(errItem);
+        addErrorMessage("Title is required!");
     }
     var price = getInputById("price").value;
     var priceValue = parseFloat(price);
     if (price == "" || isNaN(priceValue)) {
         isValid = false;
-        var errSummary = $("validation-summary");
-        var errItem = document.createElement("li");
-        errItem.innerText = "Price is required and must be a number";
-        errSummary.appendChild(errItem);
+        addErrorMessage("Price is required and must be a number!");
+    }
+    var rating = $("rating").value;
+    if (rating == "") {
+        isValid = false;
+        addErrorMessage("You must choose a rating!");
+    }
+    var gamePlatform = $("platform").value;
+    if (gamePlatform == "") {
+        isValid = false;
+        addErrorMessage("You must choose a platform!");
     }
     return isValid;
+}
+function addErrorMessage(errMsg) {
+    var errSummary = $("validation-summary");
+    var errItem = document.createElement("li");
+    errItem.innerText = errMsg;
+    errSummary.appendChild(errItem);
 }
